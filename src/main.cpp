@@ -48,7 +48,14 @@ int main() {
         Client client(IP, port);
         //Client client("127.0.0.1", 8000);
 
-        char disk = client.connectToServer();
+        client.connectToServer();
+        char disk = client.getDisk();
+        while (disk == ' ') {
+            client.sendMessage(Point(0,0));
+            client.getMessage();
+            disk = client.getDisk();
+        }
+
         Remote player1(&client, disk, &printer);
         char rivalDisk = ' ';
         if (disk == 'X') {

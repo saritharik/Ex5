@@ -2,9 +2,13 @@
 #define EX5_CLIENT_H
 
 #include "Point.h"
+#include <map>
+#include <string>
+using namespace std;
 
 class Client {
 public:
+    enum commands{start, list_games, join, play, closeGame};
     /**
      * Constuctor.
      * @param serverIP - the IP address.
@@ -26,9 +30,14 @@ public:
      * @param newPoint the point that choosen.
      */
     void sendMessage(Point newPoint);
+
+    char getDisk();
 private:
     const char *serverIP;
     int serverPort;
     int clientSocket;
+    commands command;
+    map<string,int> commandMap;
+    char disk;
 };
 #endif //EX5_CLIENT_H

@@ -20,11 +20,6 @@ void Game::playGame() {
         } else {
             currentPlayer = p2;
         }
-        //if (count == 0) {
-        //    currentPlayer = p1;
-        //} else {
-        //    currentPlayer = p2;
-        //}
         Point point(-7, -7);
         vector<Point> vecPoints;
         if (remoteGame) {
@@ -49,11 +44,6 @@ void Game::playGame() {
             if (point.getX() == -1 && point.getY() == -1) {
                 break;
             }
-            /*while ((!game->possibleMoves(point, currentPlayer->getDisk()))
-                   || (point.getY() == 0 && point.getX() == 0)) {
-                userInter->uncorrectMoves(vecPoints);
-                point = currentPlayer->chooseSquare(vecPoints);
-            }*/
         } else {
             userInter->currentPlayerMsg(currentPlayer->getDisk());
             vecPoints = game->findPoints(currentPlayer->getDisk());

@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <iostream>
+#include <pthread.h>
 using namespace std;
 #define MAX_CONNECTED_CLIENTS 2
 
@@ -34,13 +35,23 @@ void Server::start() {
     socklen_t clientAddressLenX;
     socklen_t clientAddressLenO;
 
+    //int p = pthread_create()
     while (true) {
         printer.waitToConnection();
         // Accept a new client connection
-        int clientSocketX = accept(serverSocket, (struct
+        int clientSocket = accept(serverSocket, (struct
                 sockaddr *)&clientAddressX, &clientAddressLenX);
-        if (clientSocketX == -1)
+        if (clientSocket == -1)
             throw "Error on accept";
+        cout << "client connect" << endl;
+        char command[250];
+        int n = read(clientSocket, &command, sizeof(command));
+        if (n == -1) {
+            cout << "Error in read command" << endl;
+            return;
+        }
+        handler.handleClient(clientSocket, command);
+        /*
         printer.waitToOtherClient();
         int X = 1;
         int O = 2;
@@ -55,9 +66,10 @@ void Server::start() {
         handleClient(clientSocketX, clientSocketO);
         // Close communication with the client
         close(clientSocketX);
-        close(clientSocketO);
+        close(clientSocketO);*/
     }
 }
+
 
 // Handle requests from a specific client
 void Server::handleClient(int clientSocketX, int clientSocketO) {
