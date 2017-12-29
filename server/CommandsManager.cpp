@@ -1,12 +1,7 @@
-//
-// Created by sarit on 25/12/17.
-//
-
 #include "CommandsManager.h"
 #include "StartCommand.h"
 #include "ListGamesCommand.h"
 #include "JoinCommand.h"
-#include "PlayCommand.h"
 #include "CloseCommand.h"
 
 CommandsManager::CommandsManager(vector<gameSettings>* gameSet): gameSet(gameSet) {
@@ -14,7 +9,7 @@ CommandsManager::CommandsManager(vector<gameSettings>* gameSet): gameSet(gameSet
     commandsMap["list_games"] = new ListGamesCommand(gameSet);
     commandsMap["join"] = new JoinCommand(gameSet);
     //commandsMap["play"] = new PlayCommand();
-    //commandsMap["close"] = new CloseCommand();
+    commandsMap["close"] = new CloseCommand(gameSet);
 }
 
 void CommandsManager::executeCommand(int clientSocket, string command, vector<string> args) {
@@ -25,6 +20,6 @@ void CommandsManager::executeCommand(int clientSocket, string command, vector<st
 CommandsManager::~CommandsManager() {
     map<string, Command *>:: iterator it;
     for (it = commandsMap.begin(); it != commandsMap.end(); it++) {
-        //delete it->second;
+        delete it->second;
     }
 }

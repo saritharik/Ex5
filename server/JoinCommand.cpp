@@ -1,12 +1,7 @@
-//
-// Created by sarit on 25/12/17.
-//
-
 #include <unistd.h>
 #include <cstring>
 #include <iostream>
 #include "JoinCommand.h"
-#include "../include/Point.h"
 #include "ServerPrinter.h"
 
 JoinCommand::JoinCommand(vector<gameSettings>* gameSet): gameSet(gameSet) {}
@@ -59,8 +54,6 @@ void JoinCommand::play(int clientSocketX, int clientSocketO) {
             printer.errorRead('y');
             return;
         }
-
-        //Point moveX(xPoint1, yPoint1);
         if (xPoint1 == -1 && yPoint1 == -1) {
             return;
         }
@@ -93,7 +86,6 @@ void JoinCommand::play(int clientSocketX, int clientSocketO) {
             printer.errorRead('y');
             return;
         }
-        //Point moveO(xPoint2, yPoint2);
         if (xPoint2 == -1 && yPoint2 == -1) {
             //close(clientSocketO);
             return;

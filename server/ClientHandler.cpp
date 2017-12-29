@@ -12,7 +12,7 @@ void ClientHandler::handleClient(int socket, string command) {
     for (int i = 0; i < command.size(); i++) {
         com[i] = command[i];
     }
-    do {
+    //do {
         if (strcmp(com, "list_games") != 0) {
             int n = read(socket, &args, sizeof(args));
             if (n == -1) {
@@ -22,6 +22,6 @@ void ClientHandler::handleClient(int socket, string command) {
             arguments.push_back(args);
         }
         manager.executeCommand(socket, command, arguments);
-        int n = read(socket, &com, sizeof(com));
-    } while (strcmp (com, "close") != 0);
+      //  int n = read(socket, &com, sizeof(com));
+    //} while (strcmp (com, "close") != 0);
 }

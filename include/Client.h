@@ -30,9 +30,14 @@ public:
      * @param newPoint the point that choosen.
      */
     void sendMessage(Point newPoint);
-
+    /**
+     * Get the player disk.
+     * @return the disk.
+     */
     char getDisk();
-
+    /**
+     * Send command to server.
+     */
     void sendCommand();
 
 private:

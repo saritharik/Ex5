@@ -12,7 +12,16 @@
 
 class StartCommand: public Command {
 public:
+    /**
+     * Constructor.
+     * @param gameSet - vector of games.
+     */
     StartCommand(vector<gameSettings>* gameSet);
+    /**
+     * Execute the relevant command.
+     * @param clientSocket - num of socket.
+     * @param args - arguments.
+     */
     virtual void execute(int clientSocket, vector<string> args);
 
 private:

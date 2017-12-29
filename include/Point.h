@@ -20,8 +20,15 @@ public:
      * @return the y.
      */
     int getY();
-
+    /**
+     * Set x value.
+     * @param x - new value.
+     */
     void setX(int x);
+    /**
+     * Set y value.
+     * @param y - new value.
+     */
     void setY(int y);
 private:
     int x, y;

@@ -1,7 +1,3 @@
-//
-// Created by sarit on 25/12/17.
-//
-
 #ifndef EX5_CLIENTHANDLER_H
 #define EX5_CLIENTHANDLER_H
 
@@ -11,11 +7,18 @@
 
 class ClientHandler {
 public:
+    /**
+     * Constructor.
+     */
     ClientHandler();
+    /**
+     * Handle in client request.
+     * @param socket - client socket.
+     * @param command - the request.
+     */
     void handleClient(int socket, string command);
 private:
     CommandsManager manager;
-    //vector<string> listGames;
     vector<gameSettings> gameSet;
 };
 

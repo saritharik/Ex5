@@ -8,10 +8,21 @@
 
 class CommandsManager {
 public:
+    /**
+     * Constructor.
+     * @param gameSet - vector of games settings.
+     */
     CommandsManager(vector<gameSettings>* gameSet);
-
+    /**
+     * D'tor.
+     */
     ~CommandsManager();
-
+    /**
+     * Mange the execute of commands.
+     * @param clientSocket - num of socket.
+     * @param command - the command.
+     * @param args - arguments.
+     */
     void executeCommand(int clientSocket, string command, vector<string> args);
 
 private:

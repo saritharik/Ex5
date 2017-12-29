@@ -1,7 +1,3 @@
-//
-// Created by sarit on 25/12/17.
-//
-
 #ifndef EX5_LISTGAMESCOMMAND_H
 #define EX5_LISTGAMESCOMMAND_H
 
@@ -11,7 +7,16 @@
 
 class ListGamesCommand: public Command {
 public:
+    /**
+     * Constructor.
+     * @param gameSet - vector of games.
+     */
     ListGamesCommand(vector<gameSettings>* gameSet);
+    /**
+     * Execute the relevant command.
+     * @param clientSocket - num of socket.
+     * @param args - arguments.
+     */
     virtual void execute(int clientSocket, vector<string> args);
 
 private:
