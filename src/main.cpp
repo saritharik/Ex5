@@ -51,6 +51,13 @@ int main() {
         client.connectToServer();
         char disk = client.getDisk();
         while (disk == ' ') {
+            cout << "Menu:" << endl <<
+                 "Please choose option:" << endl <<
+                 "start <name>" << endl <<
+                 "list_games" << endl <<
+                 "join <name>" << endl <<
+                 "close <name>" << endl;
+            client.sendCommand();
             client.sendMessage(Point(0,0));
             client.getMessage();
             disk = client.getDisk();

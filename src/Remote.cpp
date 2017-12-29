@@ -28,7 +28,7 @@ Point Remote::chooseSquare(vector<Point> vecPoints) {
     }
     printer->currentPlayerMsg(disk);
     printer->optionsToMove(vecPoints);
-
+    client->sendCommand();
 
     while (b == false) {
         char a;

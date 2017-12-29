@@ -11,6 +11,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <vector>
+#include <cstdlib>
 
 using namespace std;
 
@@ -52,7 +53,7 @@ char Client::connectToServer() {
     memcpy((char*)&serverAddress.sin_addr.s_addr, (char
     *)server->h_addr, server->h_length);
     // htons converts values between host and network byte
-//    orders
+    //orders
     serverAddress.sin_port = htons(serverPort);
     // Establish a connection with the TCP server
     if (connect(clientSocket, (struct sockaddr
@@ -60,40 +61,6 @@ char Client::connectToServer() {
         throw "Error connecting to server";
     }
     cout << "Connected to server" << endl;
-
-    cout << "Menu:" << endl <<
-         "Please choose option:" << endl <<
-         "start <name>" << endl <<
-         "list_games" << endl <<
-         "join <name>" << endl <<
-         "play <x> <y>" << endl <<
-         "close <name>" << endl;
-
-
-    //צריך להעביר לפונקציית start
-    /*int firstPlayer;
-
-    //int
-    n = read(clientSocket, &firstPlayer, sizeof(firstPlayer));
-    if (n == -1) {
-        throw "Error reading from socket";
-    }
-    if (firstPlayer == 1) {
-        cout << "Waiting for other player to join..." << endl;
-    } else if (firstPlayer == 2) {
-
-    }
-    int result;
-    n = read(clientSocket, &result, sizeof(result));
-    if (n == -1) {
-        throw "Error reading the player type from socket";
-    }
-    //return the type of the player
-    if (result == 1) {
-        return 'X';
-    } else if (result == 2) {
-        return 'O';
-    }*/
 }
 
 char Client::getDisk() {
@@ -101,7 +68,9 @@ char Client::getDisk() {
 }
 
 Point Client::getMessage() {
-    int answer, n, d;
+    int answer, n, d, x, y, numOfGames;
+    char name[20] = "";
+    Point point(0,0);
     vector<string> listGames;
     vector<string>::iterator it;
     // Read the message from the server
@@ -111,9 +80,7 @@ Point Client::getMessage() {
             if (answer == -1) {
                 cout << "There is a game with this name." << endl;
             } else {
-                //this->disk = 'X';
                 cout << "Waiting for other player to join..." << endl;
-                int d;
                 //wait to other player
                 n = read(clientSocket, &d, sizeof(d));
                 if (d == 1) {
@@ -125,16 +92,18 @@ Point Client::getMessage() {
             break;
 
         case list_games:
-            n = read(clientSocket, &listGames, sizeof(listGames));
+            n = read(clientSocket, &numOfGames, sizeof(numOfGames));
+            for (int i = 0; i < numOfGames ; ++i) {
+                n = read(clientSocket, &name, sizeof(name));
+                listGames.push_back(name);
+                cout << name << endl;
+            }
             if (n == -1) {
                 cout << "Error" << endl;
             }
             if (listGames.empty()) {
                 cout << "There is no games right now" << endl;
                 break;
-            }
-            for (it = listGames.begin(); it!= listGames.end(); it++) {
-                cout << it.base() << endl;
             }
             break;
 
@@ -147,65 +116,54 @@ Point Client::getMessage() {
             } else if (d == 2) {
                 this->disk = 'O';
             }
+            command = play;
             break;
 
         case play:
-            char x;
-            char y;
+            //n = read(clientSocket, &point, sizeof(point));
             n = read(clientSocket, &x, sizeof(x));
+            cout << x << endl;
             n = read(clientSocket, &y, sizeof(y));
-            return Point(x, y);
+            cout << y << endl;
+
+            point.setX(x);
+            point.setY(y);
+            //Point point(x,y);
+            return point;
 
         case closeGame:
             break;
     }
-    return Point(0,0);
+    return point;
 
 }
 
 void Client::sendMessage(Point newPoint) {
-    //string com;
-    //cin >> com;
-    char com[250];  ////magc numbers!!
-    //char temp;
-    cin >> com;
+    int x = newPoint.getX();
+    int y = newPoint.getY();
 
-    cout << com;
-    int n = write(clientSocket, &com, sizeof(com));
-    if (n == -1) {
-        throw "Error writing to server";
-    }
-
-    switch (commandMap[com]) {
+    int n;
+    switch (command) {
         case start:
-            this->command = start;
             char arg[250];
             cin >> arg;
             n = write(clientSocket, &arg, sizeof(arg));
             break;
 
         case list_games:
-            this->command = list_games;
-            // no arguments
             break;
 
         case join:
-            this->command = join;
             cin >> arg;
             n = write(clientSocket, &arg, sizeof(arg));
             break;
 
         case play:
-            this->command = play;
-            char arg1[250];
-            cin >> arg;
-            cin >> arg1;
-            n = write(clientSocket, &arg, sizeof(arg));
-            n = write(clientSocket, &arg1, sizeof(arg1));
+            n = write(clientSocket, &x, sizeof(x));
+            n = write(clientSocket, &y, sizeof(y));
             break;
 
         case closeGame:
-            this->command = closeGame;
             cin >> arg;
             n = write(clientSocket, &arg, sizeof(arg));
             break;
@@ -214,4 +172,40 @@ void Client::sendMessage(Point newPoint) {
             cout << "It is not available choice" << endl;
             break;
     }
+}
+
+void Client::sendCommand() {
+    char com[250] = "";  ////magc numbers!!
+    cin >> com;
+    int n = write(clientSocket, &com, sizeof(com));
+    if (n == -1) {
+        throw "Error writing to server";
+    }
+
+    switch (commandMap[com]) {
+        case start:
+            this->command = start;
+            break;
+
+        case list_games:
+            this->command = list_games;
+            break;
+
+        case join:
+            this->command = join;
+            break;
+
+        case play:
+            this->command = play;
+            break;
+
+        case closeGame:
+            this->command = closeGame;
+            break;
+
+        default:
+            cout << "It is not available choice" << endl;
+            break;
+    }
+
 }

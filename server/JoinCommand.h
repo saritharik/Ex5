@@ -8,15 +8,15 @@
 
 #include <map>
 #include "Command.h"
-#include "SocketsNums.h"
+#include "GameSettings.h"
 
 class JoinCommand: public Command {
 public:
-    JoinCommand(map<string, gameSockets>* games);
+    JoinCommand(vector<gameSettings>* gameSet);
     virtual void execute(int clientSocket, vector<string> args);
-
+    void play(int socX, int socO);
 private:
-    map<string, gameSockets>* games;
+    vector<gameSettings>* gameSet;
 };
 
 

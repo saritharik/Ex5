@@ -15,7 +15,7 @@ set(SOURCE_FILES src/BoardConsole.cpp include/BoardConsole.h src/GameLogic.cpp i
 set(TEST_FILES tests/BoardTest.cpp
         tests/BoardTest.h tests/AITest.cpp tests/AITest.h tests/HumanTest.cpp tests/HumanTest.h
         tests/PointTest.cpp tests/PointTest.h  tests/GameLogicTest.cpp tests/GameLogicTest.h)
-set(SERVER_FILES server/Server.cpp server/Server.h server/ServerPrinter.cpp server/ServerPrinter.h server/Command.h server/CommandsManager.cpp server/CommandsManager.h server/StartCommand.cpp server/StartCommand.h server/ListGamesCommand.cpp server/ListGamesCommand.h server/JoinCommand.cpp server/JoinCommand.h server/PlayCommand.cpp server/PlayCommand.h server/CloseCommand.cpp server/CloseCommand.h server/ClientHandler.cpp server/ClientHandler.h server/SocketsNums.h)
+set(SERVER_FILES server/Server.cpp server/Server.h server/ServerPrinter.cpp server/ServerPrinter.h server/Command.h server/CommandsManager.cpp server/CommandsManager.h server/StartCommand.cpp server/StartCommand.h server/ListGamesCommand.cpp server/ListGamesCommand.h server/JoinCommand.cpp server/JoinCommand.h server/PlayCommand.cpp server/PlayCommand.h server/CloseCommand.cpp server/CloseCommand.h server/ClientHandler.cpp server/ClientHandler.h server/GameSettings.h)
 
 add_executable(Ex5 ${SOURCE_FILES} src/main.cpp)
 add_executable(tests ${SOURCE_FILES} ${TEST_FILES} tests/gtest_main.cpp)

@@ -11,11 +11,11 @@
 
 class ListGamesCommand: public Command {
 public:
-    ListGamesCommand(map<string, gameSockets>* games);
+    ListGamesCommand(vector<gameSettings>* gameSet);
     virtual void execute(int clientSocket, vector<string> args);
 
 private:
-    map<string, gameSockets>* games;
+    vector<gameSettings>* gameSet;
 };
 
 

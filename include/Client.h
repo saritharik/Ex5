@@ -32,6 +32,9 @@ public:
     void sendMessage(Point newPoint);
 
     char getDisk();
+
+    void sendCommand();
+
 private:
     const char *serverIP;
     int serverPort;

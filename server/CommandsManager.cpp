@@ -9,10 +9,10 @@
 #include "PlayCommand.h"
 #include "CloseCommand.h"
 
-CommandsManager::CommandsManager(map<string, gameSockets>* games): games(games) {
-    commandsMap["start"] = new StartCommand(games);
-    commandsMap["list_games"] = new ListGamesCommand(games);
-    commandsMap["join"] = new JoinCommand(games);
+CommandsManager::CommandsManager(vector<gameSettings>* gameSet): gameSet(gameSet) {
+    commandsMap["start"] = new StartCommand(gameSet);
+    commandsMap["list_games"] = new ListGamesCommand(gameSet);
+    commandsMap["join"] = new JoinCommand(gameSet);
     //commandsMap["play"] = new PlayCommand();
     //commandsMap["close"] = new CloseCommand();
 }
@@ -25,6 +25,6 @@ void CommandsManager::executeCommand(int clientSocket, string command, vector<st
 CommandsManager::~CommandsManager() {
     map<string, Command *>:: iterator it;
     for (it = commandsMap.begin(); it != commandsMap.end(); it++) {
-        delete it->second;
+        //delete it->second;
     }
 }

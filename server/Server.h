@@ -5,7 +5,10 @@
 #include "../include/Point.h"
 #include "ServerPrinter.h"
 #include "ClientHandler.h"
-
+struct ThreadArgs {
+    int socket;
+    ClientHandler handler;
+};
 class Server {
 public:
     /**
@@ -21,7 +24,11 @@ public:
      * Stop the connection.
      */
     void stop();
-    //void *whileLoop
+
+    //static void *whileLoop(void *threadId);
+
+    static void *handleThread(void *handle);
+
 private:
     int port;
     int serverSocket; // the socket's file descriptor

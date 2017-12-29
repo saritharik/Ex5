@@ -4,11 +4,11 @@
 
 #include <map>
 #include "Command.h"
-#include "SocketsNums.h"
+#include "GameSettings.h"
 
 class CommandsManager {
 public:
-    CommandsManager(map<string, gameSockets> *games);
+    CommandsManager(vector<gameSettings>* gameSet);
 
     ~CommandsManager();
 
@@ -16,6 +16,6 @@ public:
 
 private:
     map<string, Command *> commandsMap;
-    map<string, gameSockets> *games;
+    vector<gameSettings>* gameSet;
 };
 #endif //EX5_COMMANDSMANAGER_H

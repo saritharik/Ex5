@@ -6,7 +6,7 @@
 #define EX5_CLIENTHANDLER_H
 
 #include "CommandsManager.h"
-#include "SocketsNums.h"
+#include "GameSettings.h"
 
 
 class ClientHandler {
@@ -16,7 +16,7 @@ public:
 private:
     CommandsManager manager;
     //vector<string> listGames;
-    map<string, gameSockets> games;
+    vector<gameSettings> gameSet;
 };
 
 

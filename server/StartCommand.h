@@ -8,15 +8,15 @@
 
 #include <map>
 #include "Command.h"
-#include "SocketsNums.h"
+#include "GameSettings.h"
 
 class StartCommand: public Command {
 public:
-    StartCommand(map<string, gameSockets>* games);
+    StartCommand(vector<gameSettings>* gameSet);
     virtual void execute(int clientSocket, vector<string> args);
 
 private:
-    map<string, gameSockets>* games;
+    vector<gameSettings>* gameSet;
 };
 
 
