@@ -90,13 +90,19 @@ void Server::start() {
 
 void* Server::handleThread(void *tArgs) {
     struct ThreadArgs *args = (struct ThreadArgs *)tArgs;
-    char command[250];
-    int n = read(args->socket, &command, sizeof(command));
-    if (n == -1) {
-        cout << "Error in read command" << endl;
-        return 0;
+    char command[250] = "";
+    cout << "read command - server" << endl;
+
+    while (true/*strcmp(command, "close") != 0*/) {
+        //char command[250] = "";
+        int n = read(args->socket, &command, sizeof(command));
+        args->handler.handleClient(args->socket, command);
+      //  n = read(args->socket, &command, sizeof(command));
+        //if (n == -1) {
+          //  cout << "Error in read command" << endl;
+            //return 0;
+        //}
     }
-    args->handler.handleClient(args->socket, command);
 }
 /*void* Server::whileLoop(void *tArgs) {
     struct ThreadArgs *args = (struct ThreadArgs *)tArgs;
@@ -125,7 +131,7 @@ void* Server::handleThread(void *tArgs) {
 }*/
 
 
-
+/*
 // Handle requests from a specific client
 void Server::handleClient(int clientSocketX, int clientSocketO) {
     int X = 1, O = 2;
@@ -193,7 +199,7 @@ void Server::handleClient(int clientSocketX, int clientSocketO) {
         }
     }
 }
-
+*/
 void Server::stop() {
     close(serverSocket);
 }

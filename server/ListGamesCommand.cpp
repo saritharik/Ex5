@@ -22,10 +22,8 @@ void ListGamesCommand::execute(int clientSocket, vector<string> args) {
         for (int i = 0; i < na.size() ; ++i) {
             name[i] = na[i];
         }
-        cout << "name: " << name << endl;
         n = write(clientSocket, &name, sizeof(name));
     }
-    cout << "name: " << name << endl;
     //int n = write(clientSocket, &toUser, sizeof(toUser));
     if (n == -1) {
         cout << "Error";

@@ -1,7 +1,3 @@
-//
-// Created by tamar on 07/12/17.
-//
-
 #include "../include/Client.h"
 #include <iostream>
 #include <sys/socket.h>
@@ -12,7 +8,6 @@
 #include <unistd.h>
 #include <vector>
 #include <cstdlib>
-
 using namespace std;
 
 Client::Client(const char *serverIP, int serverPort):
@@ -76,6 +71,7 @@ Point Client::getMessage() {
     // Read the message from the server
     switch (command) {
         case start:
+            cout << "yes" << endl;
             n = read(clientSocket, &answer, sizeof(answer));
             if (answer == -1) {
                 cout << "There is a game with this name." << endl;
@@ -88,6 +84,7 @@ Point Client::getMessage() {
                 } else if (d == 2) {
                     this->disk = 'O';
                 }
+                command = play;
             }
             break;
 
@@ -177,6 +174,7 @@ void Client::sendMessage(Point newPoint) {
 void Client::sendCommand() {
     char com[250] = "";  ////magc numbers!!
     cin >> com;
+    cout << "send - write command. in client" << endl;
     int n = write(clientSocket, &com, sizeof(com));
     if (n == -1) {
         throw "Error writing to server";
@@ -185,6 +183,7 @@ void Client::sendCommand() {
     switch (commandMap[com]) {
         case start:
             this->command = start;
+            cout << "start" << endl;
             break;
 
         case list_games:

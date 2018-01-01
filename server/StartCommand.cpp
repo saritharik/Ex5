@@ -25,5 +25,4 @@ void StartCommand::execute(int clientSocket, vector<string> args) {
         int answer = 0;
         int n = write(clientSocket, &answer, sizeof(answer));
     }
-
 }

@@ -33,12 +33,16 @@ void JoinCommand::execute(int clientSocket, vector<string> args) {
 }
 
 void JoinCommand::play(int clientSocketX, int clientSocketO) {
-    int xPoint1 = 0, yPoint1 = 0, xPoint2, yPoint2;
+    int xPoint1 = 0, yPoint1 = 0, xPoint2 = 0, yPoint2 = 0;
     ServerPrinter printer;
-    char args[250];
+    char args[250] = "";
+    cout << "read play command" << endl;
     int n = read(clientSocketX, &args, sizeof(args));
 
     while (strcmp(args, "close") != 0) {
+
+        cout << "read point" << endl;
+
         int n = read(clientSocketX, &xPoint1, sizeof(xPoint1));
         if (n == -1) {
             printer.errorRead('x');
@@ -66,10 +70,14 @@ void JoinCommand::play(int clientSocketX, int clientSocketO) {
         }
         n = write(clientSocketO, &yPoint1, sizeof(yPoint1));
 
+        cout << "read play command" << endl;
         n = read(clientSocketO, &args, sizeof(args));
         if (strcmp(args, "close") == 0) {
             break;
         }
+
+        cout << "read point" << endl;
+
         //move to the O player
         n = read(clientSocketO, &xPoint2, sizeof(xPoint2));
         if (n == -1) {
@@ -98,6 +106,9 @@ void JoinCommand::play(int clientSocketX, int clientSocketO) {
             return;
         }
         n = write(clientSocketX, &yPoint2, sizeof(yPoint2));
+
+        cout << "read command play" << endl;
+
         n = read(clientSocketX, &args, sizeof(args));
     }
 }

@@ -14,6 +14,7 @@ void ClientHandler::handleClient(int socket, string command) {
     }
     //do {
         if (strcmp(com, "list_games") != 0) {
+            cout << "read arguments. in clienthandler" << endl;
             int n = read(socket, &args, sizeof(args));
             if (n == -1) {
                 cout << "Error reading args" << endl;
