@@ -1,7 +1,6 @@
 #ifndef EX5_CLOSECOMMAND_H
 #define EX5_CLOSECOMMAND_H
 
-
 #include "Command.h"
 #include "GameSettings.h"
 

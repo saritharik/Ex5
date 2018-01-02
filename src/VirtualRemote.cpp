@@ -1,7 +1,3 @@
-//
-// Created by tamar on 07/12/17.
-//
-
 #include <iostream>
 #include "../include/VirtualRemote.h"
 #include "../include/UserInterface.h"
@@ -17,7 +13,6 @@ Point VirtualRemote::chooseSquare(vector<Point> vecPoints) {
     printer->remoteHelpPrinter();
    // cout << "Waiting for other player's move..." << endl;
     point = client->getMessage();
-    cout << "virtual:" << point.getX() << ' ' << point.getY() << endl;
     if (point.getX() == 0 && point.getY() == 0 && vecPoints.empty()) {
         return Point(-1, -1);
     }

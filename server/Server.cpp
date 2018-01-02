@@ -9,6 +9,7 @@
 
 using namespace std;
 #define MAX_CONNECTED_CLIENTS 4
+#define COMMAND_LEN 250
 
 Server::Server(int port): port(port), serverSocket(0) {
     cout << "Server" << endl;
@@ -62,74 +63,19 @@ void Server::start() {
         pthread_t pthread;
         pthread_create(&pthread, NULL, handleThread, &tArgs);
         threads.push_back(pthread);
-        /*char command[250];
-        int n = read(clientSocket, &command, sizeof(command));
-        if (n == -1) {
-            cout << "Error in read command" << endl;
-            return;
-        }
-        handler.handleClient(clientSocket, command);*/
-        /*
-        printer.waitToOtherClient();
-        int X = 1;
-        int O = 2;
-        write(clientSocketX, &X, sizeof(X));
-        int clientSocketO = accept(serverSocket, (struct
-                sockaddr *)&clientAddressO, &clientAddressLenO);
-        if (clientSocketO == -1)
-            throw "Error on accept";
-        printer.connect();
-        write(clientSocketO, &O, sizeof(O));
-
-        handleClient(clientSocketX, clientSocketO);
-        // Close communication with the client
-        close(clientSocketX);
-        close(clientSocketO);*/
     }
 }
 
 void* Server::handleThread(void *tArgs) {
     struct ThreadArgs *args = (struct ThreadArgs *)tArgs;
-    char command[250] = "";
-    cout << "read command - server" << endl;
-
-    while (true/*strcmp(command, "close") != 0*/) {
-        //char command[250] = "";
-        int n = read(args->socket, &command, sizeof(command));
-        args->handler.handleClient(args->socket, command);
-      //  n = read(args->socket, &command, sizeof(command));
-        //if (n == -1) {
-          //  cout << "Error in read command" << endl;
-            //return 0;
-        //}
+    char command[COMMAND_LEN] = "";
+    int n = read(args->socket, &command, sizeof(command));
+    if (n == -1) {
+        cout << "Error in read command" << endl;
+        return 0;
     }
+    args->handler.handleClient(args->socket, command);
 }
-/*void* Server::whileLoop(void *tArgs) {
-    struct ThreadArgs *args = (struct ThreadArgs *)tArgs;
-    ServerPrinter printer;
-    struct sockaddr_in clientAddressX;
-    struct sockaddr_in clientAddressO;
-    socklen_t clientAddressLenX;
-    vector<pthread_t> threads;
-
-    while (true) {
-        printer.waitToConnection();
-        // Accept a new client connection
-        int clientSocket = accept(args->serverSocket, (struct
-                sockaddr*) &clientAddressX, &clientAddressLenX);
-        if (clientSocket == -1)
-            throw "Error on accept";
-        cout << "client connect" << endl;
-        char command[250];
-        int n = read(clientSocket, &command, sizeof(command));
-        if (n == -1) {
-            cout << "Error in read command" << endl;
-            break;
-        }
-        args->handler.handleClient(clientSocket, command);
-    }
-}*/
-
 
 /*
 // Handle requests from a specific client

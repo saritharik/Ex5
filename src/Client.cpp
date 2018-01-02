@@ -8,6 +8,8 @@
 #include <unistd.h>
 #include <vector>
 #include <cstdlib>
+#define NAMES_OF_GAMES 20
+
 using namespace std;
 
 Client::Client(const char *serverIP, int serverPort):
@@ -171,10 +173,9 @@ void Client::sendMessage(Point newPoint) {
     }
 }
 
-void Client::sendCommand() {
+string Client::sendCommand() {
     char com[250] = "";  ////magc numbers!!
     cin >> com;
-    cout << "send - write command. in client" << endl;
     int n = write(clientSocket, &com, sizeof(com));
     if (n == -1) {
         throw "Error writing to server";
@@ -206,5 +207,5 @@ void Client::sendCommand() {
             cout << "It is not available choice" << endl;
             break;
     }
-
+    return com;
 }

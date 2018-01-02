@@ -38,7 +38,7 @@ public:
     /**
      * Send command to server.
      */
-    void sendCommand();
+    string sendCommand();
 
 private:
     const char *serverIP;
