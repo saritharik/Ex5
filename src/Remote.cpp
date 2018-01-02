@@ -1,7 +1,3 @@
-//
-// Created by tamar on 07/12/17.
-//
-
 #include "../include/Remote.h"
 #include <iostream>
 #include <limits>
@@ -28,7 +24,7 @@ Point Remote::chooseSquare(vector<Point> vecPoints) {
     }
     printer->currentPlayerMsg(disk);
     printer->optionsToMove(vecPoints);
-    client->sendCommand();
+    //client->sendCommand();
 
     while (b == false) {
         char a;

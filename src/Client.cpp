@@ -9,6 +9,8 @@
 #include <vector>
 #include <cstdlib>
 #define NAMES_OF_GAMES 20
+#define COMMAND_LEN 250
+
 
 using namespace std;
 
@@ -57,7 +59,6 @@ char Client::connectToServer() {
     *)&serverAddress, sizeof(serverAddress)) == -1) {
         throw "Error connecting to server";
     }
-    cout << "Connected to server" << endl;
 }
 
 char Client::getDisk() {
@@ -66,14 +67,13 @@ char Client::getDisk() {
 
 Point Client::getMessage() {
     int answer, n, d, x, y, numOfGames;
-    char name[20] = "";
+    char name[NAMES_OF_GAMES] = "";
     Point point(0,0);
     vector<string> listGames;
     vector<string>::iterator it;
     // Read the message from the server
     switch (command) {
         case start:
-            cout << "yes" << endl;
             n = read(clientSocket, &answer, sizeof(answer));
             if (answer == -1) {
                 cout << "There is a game with this name." << endl;
@@ -174,7 +174,7 @@ void Client::sendMessage(Point newPoint) {
 }
 
 string Client::sendCommand() {
-    char com[250] = "";  ////magc numbers!!
+    char com[COMMAND_LEN] = "";
     cin >> com;
     int n = write(clientSocket, &com, sizeof(com));
     if (n == -1) {
@@ -184,7 +184,6 @@ string Client::sendCommand() {
     switch (commandMap[com]) {
         case start:
             this->command = start;
-            cout << "start" << endl;
             break;
 
         case list_games:

@@ -37,18 +37,8 @@ void Server::start() {
     struct sockaddr_in clientAddressO;
     socklen_t clientAddressLenX;
     socklen_t clientAddressLenO;
-    /*pthread_t threads;
-    //vector<pthread_t>::iterator iter;
-    ThreadArgs tArgs;
-    tArgs.handler = handler;
-    tArgs.serverSocket = serverSocket;
-    //for (int i = 0; i < 5; i++) {
-    int rc = pthread_create(&threads, NULL, whileLoop, &tArgs);
-    if (rc) {
-        cout << "Error: unable to create thread, " << rc << endl;
-        exit(-1);
-    }*/
-    vector<pthread_t> threads;
+
+    //vector<pthread_t> threads;
     ThreadArgs tArgs;
     while (true) {
         printer.waitToConnection();
@@ -77,75 +67,15 @@ void* Server::handleThread(void *tArgs) {
     args->handler.handleClient(args->socket, command);
 }
 
-/*
-// Handle requests from a specific client
-void Server::handleClient(int clientSocketX, int clientSocketO) {
-    int X = 1, O = 2;
-    int xPoint1, yPoint1, xPoint2, yPoint2;
-
-    //init the game
-    write(clientSocketX, &X, sizeof(X));
-    write(clientSocketO, &O, sizeof(O));
-
-    while (true) {
-        int n = read(clientSocketX, &xPoint1, sizeof(xPoint1));
-        if (n == -1) {
-            printer.errorRead('x');
-            return;
-        }
-        if (n == 0) {
-            printer.disconnect();
-            return;
-        }
-
-        n = read(clientSocketX, &yPoint1, sizeof(yPoint1));
-        if (n == -1) {
-            printer.errorRead('y');
-            return;
-        }
-        Point moveX(xPoint1, yPoint1);
-        if (xPoint1 == -1 && yPoint1 == -1) {
-            return;
-        }
-
-        // Write the result back to the O client
-        n = write(clientSocketO, &moveX, sizeof(moveX));
-        if (n == -1) {
-            printer.errorWrite();
-            return;
-        }
-
-        //move to the O player
-        n = read(clientSocketO, &xPoint2, sizeof(xPoint2));
-        if (n == -1) {
-            printer.errorRead('x');
-            return;
-        }
-        if (n == 0) {
-            printer.disconnect();
-            return;
-        }
-
-        n = read(clientSocketO, &yPoint2, sizeof(yPoint2));
-        if (n == -1) {
-            printer.errorRead('y');
-            return;
-        }
-        Point moveO(xPoint2, yPoint2);
-        if (xPoint2 == -1 && yPoint2 == -1) {
-            //close(clientSocketO);
-            return;
-        }
-
-        // Write the result back to the X client
-        n = write(clientSocketX, &moveO, sizeof(moveO));
-        if (n == -1) {
-            printer.errorWrite();
-            return;
-        }
-    }
+void* Server::startThread(void *server) {
+    Server* ser = (Server*)server;
+    ser->start();
 }
-*/
+
 void Server::stop() {
+    int size = threads.size();
+    for (int i = 0; i < size; i++) {
+        pthread_cancel(threads[i]);
+    }
     close(serverSocket);
 }

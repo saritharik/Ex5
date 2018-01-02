@@ -32,13 +32,15 @@ public:
      * @return - void.
      */
     static void *handleThread(void *handle);
+    static void *startThread(void *server);
+
 
 private:
     int port;
     int serverSocket; // the socket's file descriptor
-   // void handleClient(int clientSocketX, int clientSocketO);
     ServerPrinter printer;
     ClientHandler handler;
+    vector<pthread_t> threads;
 };
 
 

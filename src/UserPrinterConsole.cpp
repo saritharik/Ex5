@@ -46,16 +46,16 @@ void UserPrinterConsole::uncorrectMoves(vector<Point> points) {
              << iter.base()->getY() << ")";
     }
     cout << endl;
-    cout << "Please enter your move row,col: (example: x,y)";
+    cout << "Please enter your move row,col: (example: x,y) ";
 }
 
 void UserPrinterConsole::endOfGame(char disk) {
     if (disk == 'X') {
-        cout << "X is the winner!";
+        cout << "X is the winner!" << endl;
     } else if (disk == 'O') {
-        cout <<  "O is the winner!";
+        cout <<  "O is the winner!" << endl;
     } else {
-        cout << "The game ended in a draw";
+        cout << "The game ended in a draw" << endl;
     }
 }
 

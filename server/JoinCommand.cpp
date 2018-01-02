@@ -7,12 +7,12 @@
 JoinCommand::JoinCommand(vector<gameSettings>* gameSet): gameSet(gameSet) {}
 
 void JoinCommand::execute(int clientSocket, vector<string> args) {
-    string key = args[0];
+    string nameOfGame = args[0];
     bool gameIn = false;
     int socketX, socketO;
     vector<gameSettings>::iterator iter;
     for(iter = gameSet->begin(); iter != gameSet->end(); iter++) {
-        if(strcmp(iter.base()->name.c_str(), key.c_str()) == 0) {
+        if(strcmp(iter.base()->name.c_str(), nameOfGame.c_str()) == 0) {
             gameIn = true;
             iter.base()->socketO = clientSocket;
             int answer1 = 1;
@@ -31,6 +31,12 @@ void JoinCommand::execute(int clientSocket, vector<string> args) {
         play(socketX, socketO);
         close(socketX);
         close(socketO);
+        for(iter = gameSet->begin(); iter != gameSet->end(); iter++) {
+            if(strcmp(iter.base()->name.c_str(), nameOfGame.c_str()) == 0) {
+                this->gameSet->erase(iter);
+                break;
+            }
+        }
     }
 }
 
@@ -38,7 +44,7 @@ void JoinCommand::play(int clientSocketX, int clientSocketO) {
     int xPoint1 = 0, yPoint1 = 0, xPoint2 = 0, yPoint2 = 0;
     ServerPrinter printer;
     char args[250] = "";
-    int n = read(clientSocketX, &args, sizeof(args));
+    //int n = read(clientSocketX, &args, sizeof(args));
 
     while (strcmp(args, "close") != 0) {
         int n = read(clientSocketX, &xPoint1, sizeof(xPoint1));
@@ -68,7 +74,7 @@ void JoinCommand::play(int clientSocketX, int clientSocketO) {
         }
         n = write(clientSocketO, &yPoint1, sizeof(yPoint1));
 
-        n = read(clientSocketO, &args, sizeof(args));
+        //n = read(clientSocketO, &args, sizeof(args));
         if (strcmp(args, "close") == 0) {
             break;
         }
@@ -101,6 +107,6 @@ void JoinCommand::play(int clientSocketX, int clientSocketO) {
         }
         n = write(clientSocketX, &yPoint2, sizeof(yPoint2));
 
-        n = read(clientSocketX, &args, sizeof(args));
+        //n = read(clientSocketX, &args, sizeof(args));
     }
 }

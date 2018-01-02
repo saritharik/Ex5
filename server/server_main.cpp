@@ -17,7 +17,16 @@ int main() {
     reader.close();
     Server server(port);
     try {
-        server.start();
+        pthread_t thread;
+        pthread_create(&thread, NULL, server.startThread, &server);
+        //server.start();
+        cout << "press exit to stop server" << endl;
+        string str;
+        cin >> str;
+        if (str == "exit") {
+            server.stop();
+            pthread_cancel(thread);
+        }
     } catch (const char *msg) {
         cout << "Cannot start server. Reason: " << msg << endl;
         exit(-1);

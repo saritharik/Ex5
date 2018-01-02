@@ -52,7 +52,7 @@ int main() {
         while (true) {
 
             //client.connectToServer();
-            char disk = client.getDisk();
+            char disk = ' ';
             while (disk == ' ') {
                 client.connectToServer();
                 cout << "Menu:" << endl <<
@@ -69,18 +69,19 @@ int main() {
                     break;
                 }
             }
-
+            BoardConsole boardC(defaultSizeBoard, defaultSizeBoard);
+            GameLogic gameLogic(&boardC);
             Remote player1(&client, disk, &printer);
             char rivalDisk = ' ';
             if (disk == 'X') {
                 rivalDisk = 'O';
                 VirtualRemote player2(&client, rivalDisk, &printer);
-                Game game(&player1, &player2, &bC, &gameLogic, &printer, true);
+                Game game(&player1, &player2, &boardC, &gameLogic, &printer, true);
                 game.playGame();
             } else if (disk == 'O') {
                 rivalDisk = 'X';
                 VirtualRemote player2(&client, rivalDisk, &printer);
-                Game game(&player2, &player1, &bC, &gameLogic, &printer, true);
+                Game game(&player2, &player1, &boardC, &gameLogic, &printer, true);
                 game.playGame();
             }
         }
