@@ -30,3 +30,11 @@ void ServerPrinter::disconnect() {
 void ServerPrinter::errorWrite() {
     cout << "Error writing to socket" << endl;
 }
+
+void ServerPrinter::errorCommand() {
+    cout << "Error in read command" << endl;
+}
+
+void ServerPrinter::errorBinding() {
+    cout << "Error on binding" << endl;
+}

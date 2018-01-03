@@ -8,7 +8,7 @@
 #include <unistd.h>
 #include <vector>
 #include <cstdlib>
-#define NAMES_OF_GAMES 20
+#define NAMES_OF_GAMES 50
 #define COMMAND_LEN 250
 
 
@@ -22,7 +22,7 @@ Client::Client(const char *serverIP, int serverPort):
     commandMap["list_games"] = 1;
     commandMap["join"] = 2;
     commandMap["play"] = 3;
-    commandMap["close"] = 4;
+    //commandMap["close"] = 4;
     this->disk = ' ';
 }
 
@@ -65,6 +65,10 @@ char Client::getDisk() {
     return this->disk;
 }
 
+void Client::setDisk(char d) {
+    this->disk = d;
+}
+
 Point Client::getMessage() {
     int answer, n, d, x, y, numOfGames;
     char name[NAMES_OF_GAMES] = "";
@@ -94,13 +98,13 @@ Point Client::getMessage() {
             n = read(clientSocket, &numOfGames, sizeof(numOfGames));
             for (int i = 0; i < numOfGames ; ++i) {
                 n = read(clientSocket, &name, sizeof(name));
-                listGames.push_back(name);
+                //listGames.push_back(name);
                 cout << name << endl;
             }
             if (n == -1) {
                 cout << "Error" << endl;
             }
-            if (listGames.empty()) {
+            if (numOfGames == 0) {
                 cout << "There is no games right now" << endl;
                 break;
             }
@@ -119,19 +123,15 @@ Point Client::getMessage() {
             break;
 
         case play:
-            //n = read(clientSocket, &point, sizeof(point));
             n = read(clientSocket, &x, sizeof(x));
-            cout << x << endl;
             n = read(clientSocket, &y, sizeof(y));
-            cout << y << endl;
 
             point.setX(x);
             point.setY(y);
-            //Point point(x,y);
             return point;
 
-        case closeGame:
-            break;
+        /*case closeGame:
+            break;*/
     }
     return point;
 
@@ -159,12 +159,10 @@ void Client::sendMessage(Point newPoint) {
 
         case play:
             n = write(clientSocket, &x, sizeof(x));
+            if (n == -1) {
+                throw "Server disconnected";
+            }
             n = write(clientSocket, &y, sizeof(y));
-            break;
-
-        case closeGame:
-            cin >> arg;
-            n = write(clientSocket, &arg, sizeof(arg));
             break;
 
         default:
@@ -198,9 +196,9 @@ string Client::sendCommand() {
             this->command = play;
             break;
 
-        case closeGame:
+        /*case closeGame:
             this->command = closeGame;
-            break;
+            break;*/
 
         default:
             cout << "It is not available choice" << endl;

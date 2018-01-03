@@ -1,7 +1,3 @@
-//
-// Created by sarit on 25/12/17.
-//
-
 #ifndef EX5_STARTCOMMAND_H
 #define EX5_STARTCOMMAND_H
 

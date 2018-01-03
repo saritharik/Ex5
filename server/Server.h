@@ -5,10 +5,8 @@
 #include "../include/Point.h"
 #include "ServerPrinter.h"
 #include "ClientHandler.h"
-struct ThreadArgs {
-    int socket;
-    ClientHandler handler;
-};
+#include "ThreadArgs.h"
+
 class Server {
 public:
     /**
@@ -25,13 +23,18 @@ public:
      */
     void stop();
 
-    //static void *whileLoop(void *threadId);
     /**
      * Handle clients.
      * @param handle - client details.
      * @return - void.
      */
     static void *handleThread(void *handle);
+
+    /**
+     * hread of he server
+     * @param server get a refernce to the server
+     * @return nothing
+     */
     static void *startThread(void *server);
 
 

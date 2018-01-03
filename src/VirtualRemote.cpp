@@ -11,7 +11,6 @@ VirtualRemote::VirtualRemote(Client *client1, char d, UserInterface* printer):
 Point VirtualRemote::chooseSquare(vector<Point> vecPoints) {
     Point point(-7,-7);
     printer->remoteHelpPrinter();
-   // cout << "Waiting for other player's move..." << endl;
     point = client->getMessage();
     if (point.getX() == 0 && point.getY() == 0 && vecPoints.empty()) {
         return Point(-1, -1);
@@ -23,12 +22,6 @@ Point VirtualRemote::chooseSquare(vector<Point> vecPoints) {
     if (point.getX() != 0 && point.getX() != -1) {
         printer->remotePlayerMsg(disk, point);
     }
-    /*if (disk == 'O') {
-        cout << "O";
-    } else {
-        cout << "X ";
-    }
-    cout << "played (" << point.getX() << "," << point.getY() << ")" << endl;*/
     return point;
 }
 

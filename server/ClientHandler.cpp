@@ -20,7 +20,29 @@ void ClientHandler::handleClient(int socket, string command) {
             cout << "Error reading args" << endl;
             return;
         }
+        if (n == 0) {
+            cout << "Client disconnected" << endl;
+            return;
+        }
         arguments.push_back(args);
     }
     manager.executeCommand(socket, command, arguments);
+}
+
+void ClientHandler::closeSocket() {
+    vector<gameSettings>::iterator it;
+    for (it = gameSet.begin(); it != gameSet.end(); it++) {
+        if (it.base()->socketX != 0) {
+            int closeClient = -1;
+            int n = write(it.base()->socketX, &closeClient, sizeof(closeClient));
+            n = write(it.base()->socketX, &closeClient, sizeof(closeClient));
+            close(it.base()->socketX);
+        }
+        if (it.base()->socketO != 0) {
+            int closeClient = -1;
+            int n = write(it.base()->socketO, &closeClient, sizeof(closeClient));
+            n = write(it.base()->socketO, &closeClient, sizeof(closeClient));
+            close(it.base()->socketO);
+        }
+    }
 }

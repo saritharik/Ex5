@@ -19,7 +19,6 @@ int main() {
     try {
         pthread_t thread;
         pthread_create(&thread, NULL, server.startThread, &server);
-        //server.start();
         cout << "press exit to stop server" << endl;
         string str;
         cin >> str;

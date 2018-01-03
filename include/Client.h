@@ -8,7 +8,7 @@ using namespace std;
 
 class Client {
 public:
-    enum commands{start, list_games, join, play, closeGame};
+    enum commands{start, list_games, join, play};
     /**
      * Constuctor.
      * @param serverIP - the IP address.
@@ -35,6 +35,12 @@ public:
      * @return the disk.
      */
     char getDisk();
+    /**
+     * Set the player disk.
+     * @param the disk.
+     */
+    void setDisk(char d);
+
     /**
      * Send command to server.
      */

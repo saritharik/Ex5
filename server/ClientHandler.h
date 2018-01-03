@@ -17,6 +17,7 @@ public:
      * @param command - the request.
      */
     void handleClient(int socket, string command);
+    void closeSocket();
 private:
     CommandsManager manager;
     vector<gameSettings> gameSet;

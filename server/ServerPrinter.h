@@ -34,6 +34,14 @@ public:
      * error in writing to the client
      */
     void errorWrite();
+    /**
+     * Error in read command.
+     */
+    void errorCommand();
+    /**
+     * Error in binding.
+     */
+    void errorBinding();
 
 };
 

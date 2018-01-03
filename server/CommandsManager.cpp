@@ -2,14 +2,11 @@
 #include "StartCommand.h"
 #include "ListGamesCommand.h"
 #include "JoinCommand.h"
-#include "CloseCommand.h"
 
 CommandsManager::CommandsManager(vector<gameSettings>* gameSet): gameSet(gameSet) {
     commandsMap["start"] = new StartCommand(gameSet);
     commandsMap["list_games"] = new ListGamesCommand(gameSet);
     commandsMap["join"] = new JoinCommand(gameSet);
-    //commandsMap["play"] = new PlayCommand();
-    commandsMap["close"] = new CloseCommand(gameSet);
 }
 
 void CommandsManager::executeCommand(int clientSocket, string command, vector<string> args) {

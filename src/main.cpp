@@ -47,20 +47,23 @@ int main() {
         reader.close();
         Client client(IP, port);
         //Client client("127.0.0.1", 8000);
-
+        bool connect = true;
         string command;
-        while (true) {
-
-            //client.connectToServer();
+        while (connect) {
             char disk = ' ';
+            client.setDisk(disk);
             while (disk == ' ') {
-                client.connectToServer();
+                try {
+                    client.connectToServer();
+                } catch (const char* e){
+                    connect = false;
+                    break;
+                }
                 cout << "Menu:" << endl <<
                      "Please choose option:" << endl <<
                      "start <name>" << endl <<
                      "list_games" << endl <<
-                     "join <name>" << endl <<
-                     "close <name>" << endl;
+                     "join <name>" << endl;
                 command = client.sendCommand();
                 client.sendMessage(Point(0, 0));
                 client.getMessage();
@@ -69,20 +72,22 @@ int main() {
                     break;
                 }
             }
-            BoardConsole boardC(defaultSizeBoard, defaultSizeBoard);
-            GameLogic gameLogic(&boardC);
-            Remote player1(&client, disk, &printer);
-            char rivalDisk = ' ';
-            if (disk == 'X') {
-                rivalDisk = 'O';
-                VirtualRemote player2(&client, rivalDisk, &printer);
-                Game game(&player1, &player2, &boardC, &gameLogic, &printer, true);
-                game.playGame();
-            } else if (disk == 'O') {
-                rivalDisk = 'X';
-                VirtualRemote player2(&client, rivalDisk, &printer);
-                Game game(&player2, &player1, &boardC, &gameLogic, &printer, true);
-                game.playGame();
+            if (connect) {
+                BoardConsole boardC(defaultSizeBoard, defaultSizeBoard);
+                GameLogic gameLogic(&boardC);
+                Remote player1(&client, disk, &printer);
+                char rivalDisk = ' ';
+                if (disk == 'X') {
+                    rivalDisk = 'O';
+                    VirtualRemote player2(&client, rivalDisk, &printer);
+                    Game game(&player1, &player2, &boardC, &gameLogic, &printer, true);
+                    game.playGame();
+                } else if (disk == 'O') {
+                    rivalDisk = 'X';
+                    VirtualRemote player2(&client, rivalDisk, &printer);
+                    Game game(&player2, &player1, &boardC, &gameLogic, &printer, true);
+                    game.playGame();
+                }
             }
         }
     }

@@ -4,11 +4,10 @@
 #include <unistd.h>
 #include <string.h>
 #include <iostream>
-#include <pthread.h>
 #include <cstdlib>
 
 using namespace std;
-#define MAX_CONNECTED_CLIENTS 4
+#define MAX_CONNECTED_CLIENTS 10
 #define COMMAND_LEN 250
 
 Server::Server(int port): port(port), serverSocket(0) {
@@ -34,12 +33,8 @@ void Server::start() {
     listen(serverSocket, MAX_CONNECTED_CLIENTS);
     // Define the client socket's structures
     struct sockaddr_in clientAddressX;
-    struct sockaddr_in clientAddressO;
     socklen_t clientAddressLenX;
-    socklen_t clientAddressLenO;
 
-    //vector<pthread_t> threads;
-    ThreadArgs tArgs;
     while (true) {
         printer.waitToConnection();
         // Accept a new client connection
@@ -47,32 +42,39 @@ void Server::start() {
                 sockaddr *)&clientAddressX, &clientAddressLenX);
         if (clientSocket == -1)
             throw "Error on accept";
-        cout << "client connect" << endl;
-        tArgs.socket = clientSocket;
-        tArgs.handler = handler;
+        printer.connect();
         pthread_t pthread;
-        pthread_create(&pthread, NULL, handleThread, &tArgs);
+        ThreadArgs* tArgs = new ThreadArgs(&handler, clientSocket);
+
+        pthread_create(&pthread, NULL, handleThread, tArgs);
         threads.push_back(pthread);
     }
 }
 
 void* Server::handleThread(void *tArgs) {
-    struct ThreadArgs *args = (struct ThreadArgs *)tArgs;
+    ServerPrinter printer;
+    ThreadArgs* args = (ThreadArgs*) tArgs;
     char command[COMMAND_LEN] = "";
-    int n = read(args->socket, &command, sizeof(command));
+    int n = read(args->getSocket(), &command, sizeof(command));
     if (n == -1) {
-        cout << "Error in read command" << endl;
+        printer.errorCommand();
         return 0;
     }
-    args->handler.handleClient(args->socket, command);
+    args->getHandler()->handleClient(args->getSocket(), command);
 }
 
 void* Server::startThread(void *server) {
+    ServerPrinter printer;
     Server* ser = (Server*)server;
-    ser->start();
+    try {
+        ser->start();
+    } catch (const char* e) {
+       printer.errorBinding();
+    }
 }
 
 void Server::stop() {
+    handler.closeSocket();
     int size = threads.size();
     for (int i = 0; i < size; i++) {
         pthread_cancel(threads[i]);

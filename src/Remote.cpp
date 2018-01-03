@@ -14,12 +14,21 @@ Point Remote::chooseSquare(vector<Point> vecPoints) {
     int x, y;
 
     if (vecPoints.empty()) {
-        client->sendMessage(Point(0, 0));
+        try {
+            client->sendMessage(Point(0, 0));
+        } catch (const char* e) {
+            cout << "Server disconnect" << endl;
+        }
         return Point(0,0);
     }
     Point end = vecPoints[0];
     if (end.getX() == -1 && end.getY() == -1) {
-        client->sendMessage(end);
+        try {
+            client->sendMessage(end);
+        } catch (const char* e) {
+            cout << "Server disconnect" << endl;
+        }
+
         return end;
     }
     printer->currentPlayerMsg(disk);
@@ -42,8 +51,13 @@ Point Remote::chooseSquare(vector<Point> vecPoints) {
                 break;
             }
         }
+        //printer->uncorrectMoves(vecPoints);
     }
-    client->sendMessage(Point(x, y));
+    try {
+        client->sendMessage(Point(x, y));
+    } catch (const char* e) {
+        cout << "Server disconnect" << endl;
+    }
     return Point(x, y);
 }
 
