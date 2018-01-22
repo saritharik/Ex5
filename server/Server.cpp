@@ -83,7 +83,6 @@ void Server::stop() {
      //   pthread_cancel(threads[i]);
     //}
     pool.terminate();
-    //vector<Task *>::iterator it;
     int size = tasks.size();
     for (int i = 0; i < size; i++) {
         delete tasks[i];
