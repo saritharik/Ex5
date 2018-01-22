@@ -9,8 +9,9 @@
 using namespace std;
 #define MAX_CONNECTED_CLIENTS 10
 #define COMMAND_LEN 250
+#define THREADS_NUM 5
 
-Server::Server(int port): port(port), serverSocket(0) {
+Server::Server(int port): port(port), serverSocket(0), pool(THREADS_NUM) {
     cout << "Server" << endl;
 }
 void Server::start() {
@@ -43,10 +44,13 @@ void Server::start() {
         if (clientSocket == -1)
             throw "Error on accept";
         printer.connect();
-        pthread_t pthread;
+        //pthread_t pthread;
         ThreadArgs* tArgs = new ThreadArgs(&handler, clientSocket);
-        pthread_create(&pthread, NULL, handleThread, tArgs);
-        threads.push_back(pthread);
+        //pthread_create(&pthread, NULL, handleThread, tArgs);
+        //threads.push_back(pthread);
+        Task* task = new Task(handleThread, (void *) tArgs);
+        tasks.push_back(task);
+        pool.addTask(task);
     }
 }
 
@@ -74,9 +78,16 @@ void* Server::startThread(void *server) {
 
 void Server::stop() {
     handler.closeSocket();
-    int size = threads.size();
+    //int size = threads.size();
+    //for (int i = 0; i < size; i++) {
+     //   pthread_cancel(threads[i]);
+    //}
+    pool.terminate();
+    //vector<Task *>::iterator it;
+    int size = tasks.size();
     for (int i = 0; i < size; i++) {
-        pthread_cancel(threads[i]);
+        delete tasks[i];
     }
+
     close(serverSocket);
 }

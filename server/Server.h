@@ -4,6 +4,7 @@
 #include "ServerPrinter.h"
 #include "ClientHandler.h"
 #include "ThreadArgs.h"
+#include "ThreadPool.h"
 
 class Server {
 public:
@@ -41,7 +42,9 @@ private:
     int serverSocket; // the socket's file descriptor
     ServerPrinter printer;
     ClientHandler handler;
-    vector<pthread_t> threads;
+    vector<Task *> tasks;
+    //vector<pthread_t> threads;
+    ThreadPool pool;
 };
 
 
