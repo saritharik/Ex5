@@ -19,6 +19,7 @@ void StartCommand::execute(int clientSocket, vector<string> args) {
     }
     if (gameIn) {
         gameSettings settings;
+        settings.socketO = 0;
         settings.name = key;
         settings.socketX = clientSocket;
         gameSet->push_back(settings);

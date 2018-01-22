@@ -45,7 +45,6 @@ void Server::start() {
         printer.connect();
         pthread_t pthread;
         ThreadArgs* tArgs = new ThreadArgs(&handler, clientSocket);
-
         pthread_create(&pthread, NULL, handleThread, tArgs);
         threads.push_back(pthread);
     }

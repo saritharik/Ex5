@@ -1,8 +1,6 @@
 #ifndef EX5_SERVER_H
 #define EX5_SERVER_H
 
-
-#include "../include/Point.h"
 #include "ServerPrinter.h"
 #include "ClientHandler.h"
 #include "ThreadArgs.h"

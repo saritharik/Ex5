@@ -4,8 +4,8 @@
 // struct of game settings.
 struct gameSettings {
     string name;
-    int socketX = 0;
-    int socketO = 0;
+    int socketX;
+    int socketO;
 };
 
 #endif //EX5_GAMESETTINGS_H
