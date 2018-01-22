@@ -43,5 +43,9 @@ void ThreadPool::terminate() {
 }
 
 ThreadPool::~ThreadPool() {
+
+    for (int i = 0; i < 5; i++) {
+        pthread_cancel(threads[i]);
+    }
     delete[] threads;
 }
