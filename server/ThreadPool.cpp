@@ -1,6 +1,6 @@
 #include "ThreadPool.h"
 #include <unistd.h>
-#define THREADS_NUM 5
+#define THREADS_NUM 2
 
 ThreadPool::ThreadPool(int threadsNum): stopped(false) {
     threads = new pthread_t[threadsNum];

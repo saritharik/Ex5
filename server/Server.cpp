@@ -9,7 +9,7 @@
 using namespace std;
 #define MAX_CONNECTED_CLIENTS 10
 #define COMMAND_LEN 250
-#define THREADS_NUM 5
+#define THREADS_NUM 2
 
 Server::Server(int port): port(port), serverSocket(0), pool(THREADS_NUM) {
     cout << "Server" << endl;
