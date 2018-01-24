@@ -5,6 +5,7 @@
 #include "ClientHandler.h"
 #include "ThreadArgs.h"
 #include "ThreadPool.h"
+#include "Task.h"
 
 class Server {
 public:
@@ -44,7 +45,7 @@ private:
     ClientHandler handler;
     vector<Task *> tasks;
     //vector<pthread_t> threads;
-    ThreadPool pool;
+    ThreadPool* pool;
 };
 
 

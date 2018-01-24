@@ -4,14 +4,14 @@
 #include <unistd.h>
 #include <string.h>
 #include <iostream>
-#include <cstdlib>
 
 using namespace std;
-#define MAX_CONNECTED_CLIENTS 10
+#define MAX_CONNECTED_CLIENTS 2
 #define COMMAND_LEN 250
 #define THREADS_NUM 2
 
-Server::Server(int port): port(port), serverSocket(0), pool(THREADS_NUM) {
+Server::Server(int port): port(port), serverSocket(0) {
+    this->pool = new ThreadPool(THREADS_NUM);
     cout << "Server" << endl;
 }
 void Server::start() {
@@ -50,7 +50,7 @@ void Server::start() {
         //threads.push_back(pthread);
         Task* task = new Task(handleThread, (void *) tArgs);
         tasks.push_back(task);
-        pool.addTask(task);
+        pool->addTask(task);
     }
 }
 
@@ -82,7 +82,7 @@ void Server::stop() {
     //for (int i = 0; i < size; i++) {
      //   pthread_cancel(threads[i]);
     //}
-    pool.terminate();
+    pool->terminate();
     int size = tasks.size();
     for (int i = 0; i < size; i++) {
         delete tasks[i];

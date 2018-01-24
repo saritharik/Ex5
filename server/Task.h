@@ -7,18 +7,15 @@ public:
      * @param func - function to activate.
      * @param arg - arguments to function.
      */
-    Task(void * (*func)(void *arg), void *arg) :
-            func(func), arg(arg) {}
+    Task(void * (*func)(void *arg), void *arg);
     /**
      * Activate the function.
      */
-    void execute() {
-        func(arg);
-    }
+    void execute();
     /**
      * D'tor.
      */
-    virtual ~Task() {}
+    virtual ~Task();
 private:
     void * (*func)(void *arg);
     void *arg;
