@@ -22,6 +22,7 @@ void JoinCommand::execute(int clientSocket, vector<string> args) {
                 socketO = iter.base()->socketO;
                 int n = write(socketX, &answer1, sizeof(answer1));
                 n = write(socketO, &answer2, sizeof(answer2));
+                this->gameSet->erase(iter);
                 break;
             }
         }
@@ -31,13 +32,15 @@ void JoinCommand::execute(int clientSocket, vector<string> args) {
         int n = write(clientSocket, &answer, sizeof(answer));
     } else {
         play(socketX, socketO);
+        //close(socketX);
+        //close(socketO);
+        //for (iter = gameSet->begin(); iter != gameSet->end(); iter++) {
+         //   if (strcmp(iter.base()->name.c_str(), nameOfGame.c_str()) == 0) {
+          //      this->gameSet->erase(iter);
+           // }
+        //}
         close(socketX);
         close(socketO);
-        for (iter = gameSet->begin(); iter != gameSet->end(); iter++) {
-            if (strcmp(iter.base()->name.c_str(), nameOfGame.c_str()) == 0) {
-                this->gameSet->erase(iter);
-            }
-        }
     }
 }
 

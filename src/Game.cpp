@@ -6,6 +6,7 @@ Game::Game(Player *p1, Player *p2, Board *b, GameLogic* game,
 
 void Game::playGame() {
     bool player1 = true;
+    bool write = true;
     int const startPoint = 2;
     p1->setPoint(startPoint);
     p2->setPoint(startPoint);
@@ -29,6 +30,7 @@ void Game::playGame() {
                 vector<Point> v1 = game->findPoints(this->p1->getDisk());
                 vector<Point> v2 = game->findPoints(this->p2->getDisk());
                 if (v1.empty() && v2.empty()) {
+                    write = false;
                     Point end(-1, -1);
                     vector<Point> endVec;
                     endVec.push_back(end);
@@ -83,6 +85,22 @@ void Game::playGame() {
             cout << endl;
             player1 = !player1;
         }
+    if (!write) {
+        Point end(-1, -1);
+        vector<Point> endVec;
+        endVec.push_back(end);
+        currentPlayer->chooseSquare(endVec);
+    } else {
+        if (player1) {
+            currentPlayer = p1;
+        } else {
+            currentPlayer = p2;
+        }
+        Point end(-1, -1);
+        vector<Point> endVec;
+        endVec.push_back(end);
+        currentPlayer->chooseSquare(endVec);
+    }
         this->b->printBoard();
         if (p1->getPoint() > p2->getPoint()) {
             userInter->endOfGame(p1->getDisk());

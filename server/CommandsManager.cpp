@@ -1,3 +1,4 @@
+#include <iostream>
 #include "CommandsManager.h"
 #include "StartCommand.h"
 #include "ListGamesCommand.h"

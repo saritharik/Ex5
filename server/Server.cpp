@@ -8,7 +8,7 @@
 using namespace std;
 #define MAX_CONNECTED_CLIENTS 2
 #define COMMAND_LEN 250
-#define THREADS_NUM 2
+#define THREADS_NUM 5
 
 Server::Server(int port): port(port), serverSocket(0) {
     this->pool = new ThreadPool(THREADS_NUM);
@@ -46,8 +46,6 @@ void Server::start() {
         printer.connect();
         //pthread_t pthread;
         ThreadArgs* tArgs = new ThreadArgs(&handler, clientSocket);
-        //pthread_create(&pthread, NULL, handleThread, tArgs);
-        //threads.push_back(pthread);
         Task* task = new Task(handleThread, (void *) tArgs);
         tasks.push_back(task);
         pool->addTask(task);
@@ -78,15 +76,11 @@ void* Server::startThread(void *server) {
 
 void Server::stop() {
     handler.closeSocket();
-    //int size = threads.size();
-    //for (int i = 0; i < size; i++) {
-     //   pthread_cancel(threads[i]);
-    //}
     pool->terminate();
     int size = tasks.size();
     for (int i = 0; i < size; i++) {
         delete tasks[i];
     }
-
+    delete pool;
     close(serverSocket);
 }

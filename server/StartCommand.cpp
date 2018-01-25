@@ -1,6 +1,7 @@
 #include <unistd.h>
 #include <cstring>
 #include "StartCommand.h"
+#include <iostream>
 using namespace std;
 
 StartCommand::StartCommand(vector<gameSettings>* gameSet): gameSet(gameSet) {}

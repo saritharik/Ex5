@@ -98,7 +98,6 @@ Point Client::getMessage() {
             n = read(clientSocket, &numOfGames, sizeof(numOfGames));
             for (int i = 0; i < numOfGames ; ++i) {
                 n = read(clientSocket, &name, sizeof(name));
-                //listGames.push_back(name);
                 cout << name << endl;
             }
             if (n == -1) {
@@ -125,13 +124,14 @@ Point Client::getMessage() {
         case play:
             n = read(clientSocket, &x, sizeof(x));
             n = read(clientSocket, &y, sizeof(y));
-
-            point.setX(x);
-            point.setY(y);
+            if (8 < x || x < 0) {
+                point.setX(-1);
+                point.setY(-1);
+            } else {
+                point.setX(x);
+                point.setY(y);
+            }
             return point;
-
-        /*case closeGame:
-            break;*/
     }
     return point;
 
@@ -196,9 +196,6 @@ string Client::sendCommand() {
             this->command = play;
             break;
 
-        /*case closeGame:
-            this->command = closeGame;
-            break;*/
 
         default:
             cout << "It is not available choice" << endl;

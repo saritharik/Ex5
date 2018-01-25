@@ -20,6 +20,7 @@ Point VirtualRemote::chooseSquare(vector<Point> vecPoints) {
     }
 
     if (point.getX() != 0 && point.getX() != -1) {
+        cout << point.getX() << endl;
         printer->remotePlayerMsg(disk, point);
     }
     return point;

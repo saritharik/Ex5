@@ -11,7 +11,7 @@
 using namespace std;
 
 int main() {
-    int const defaultSizeBoard = 4;
+    int const defaultSizeBoard = 8;
     BoardConsole bC(defaultSizeBoard, defaultSizeBoard);
     GameLogic gameLogic(&bC);
     Human p1('X');

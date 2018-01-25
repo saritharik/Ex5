@@ -1,6 +1,9 @@
 #include "ThreadPool.h"
 #include <unistd.h>
-#define THREADS_NUM 2
+#define THREADS_NUM 5
+
+#include <iostream>
+using namespace std;
 
 ThreadPool::ThreadPool(int threadsNum): stopped(false) {
     threads = new pthread_t[threadsNum];
@@ -40,7 +43,6 @@ void ThreadPool::terminate() {
 }
 
 ThreadPool::~ThreadPool() {
-
     for (int i = 0; i < THREADS_NUM; i++) {
         pthread_cancel(threads[i]);
     }
